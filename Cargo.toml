@@ -1,0 +1,12 @@
+[package]
+name = "mz_rust"
+version = "0.0.1"
+authors = ["me <me@gmail.com>"]
+
+[lib]
+name = "mz_lib"
+path = "src/mz_lib.rs"
+
+[[bin]]
+name = "mz_curses"
+path = "src/mz_curses.rs"
