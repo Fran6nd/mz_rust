@@ -1,7 +1,11 @@
+use rand::Rng;
+
+#[derive(Copy, Clone)]
 struct Point {
     x: i32,
     y: i32,
 }
+
 impl Point {
     pub fn up(&self) -> Point {
         Point {
@@ -25,6 +29,30 @@ impl Point {
         Point {
             x: self.x - 1,
             y: self.y,
+        }
+    }
+    pub fn up_right(&self) -> Point {
+        Point {
+            x: self.x + 1,
+            y: self.y - 1,
+        }
+    }
+    pub fn down_right(&self) -> Point {
+        Point {
+            x: self.x + 1,
+            y: self.y + 1,
+        }
+    }
+    pub fn up_left(&self) -> Point {
+        Point {
+            x: self.x - 1,
+            y: self.y - 1,
+        }
+    }
+    pub fn down_left(&self) -> Point {
+        Point {
+            x: self.x - 1,
+            y: self.y + 1,
         }
     }
 }
@@ -58,15 +86,22 @@ impl Maze {
         if (self.get_at(&pos.left()) == ' ') {
             output = output + 1;
         }
+        if (self.get_at(&pos.up_left()) == ' ') {
+            output = output + 1;
+        }
+        if (self.get_at(&pos.down_left()) == ' ') {
+            output = output + 1;
+        }
+        if (self.get_at(&pos.up_right()) == ' ') {
+            output = output + 1;
+        }
+        if (self.get_at(&&pos.down_right()) == ' ') {
+            output = output + 1;
+        }
 
         output
     }
-    fn can_go_up(&self, pos: &Point) -> bool {
-        if (!self.in_maze(&pos.up())) {
-            return false;
-        }
-        true
-    }
+
     fn get_at(&self, pos: &Point) -> char {
         if (self.in_maze(pos) == false) {
             return ('#');
@@ -78,12 +113,32 @@ impl Maze {
     }
     fn path(&mut self, pos: &Point) -> bool {
         self.set_at(pos, ' ');
-        let t = [&pos.up(), &pos.right(), &pos.left(), &pos.down()];
-        for tt in t {
-            if self.in_maze(tt) {
-                if self.how_many_path_neighbourgh(tt) <= 1 {
-                    println!("in_maze");
-                    self.path(tt);
+        let mut possibilities: Vec<Point> = Vec::new();
+        if (pos.x % 2) == 0 {
+            possibilities.push(pos.up());
+            possibilities.push(pos.down());
+        }
+        if (pos.y % 2) == 0 {
+            possibilities.push(pos.right());
+            possibilities.push(pos.left());
+        }
+        /* Let's put all possibilities in a random order. */
+        let mut rng = rand::thread_rng();
+        /* Empty dest: */
+        let mut possibilities_randomized: Vec<Point> = Vec::new();
+        /* While something in possibilities, we move an element randomly to possibilities_randomized. */
+        while (possibilities.len() > 0) {
+            let index = rng.gen_range(0..possibilities.len());
+            possibilities_randomized.push(possibilities[index]);
+            possibilities.remove(index);
+        }
+        /* Now possibilities are randomly sorted. */
+        for tt in possibilities_randomized {
+            if self.in_maze(&tt) {
+                if self.get_at(&tt) != ' ' {
+                    if self.how_many_path_neighbourgh(&tt) < 3 {
+                        self.path(&tt);
+                    }
                 }
             }
         }
@@ -104,9 +159,14 @@ impl Maze {
         }
     }
     pub fn print(&mut self) -> () {
-        self.path(&Point { x: 3, y: 3 });
+        self.path(&Point { x: 4, y: 4 });
         for i in 0..self.data.len() {
-            print!("{}", self.data[i]);
+            if self.data[i] == '#' {
+                print!("{}", self.data[i]);
+            } else {
+                print!("+");
+            }
+
             if ((i + 1) as i32 % self.width == 0) {
                 println!("");
             }
