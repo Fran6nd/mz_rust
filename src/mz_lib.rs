@@ -63,7 +63,7 @@ pub struct Maze {
 }
 impl Maze {
     fn in_maze(&self, pos: &Point) -> bool {
-        if (pos.x < 0 || pos.y < 0 || pos.x >= self.width || pos.y >= self.height) {
+        if pos.x < 0 || pos.y < 0 || pos.x >= self.width || pos.y >= self.height {
             return false;
         }
         true
@@ -74,28 +74,28 @@ impl Maze {
             println!("not in maze");
             return 0;
         }
-        if (self.get_at(&pos.up()) == ' ') {
+        if self.get_at(&pos.up()) == ' ' {
             output = output + 1;
         }
-        if (self.get_at(&pos.down()) == ' ') {
+        if self.get_at(&pos.down()) == ' ' {
             output = output + 1;
         }
-        if (self.get_at(&pos.right()) == ' ') {
+        if self.get_at(&pos.right()) == ' ' {
             output = output + 1;
         }
-        if (self.get_at(&pos.left()) == ' ') {
+        if self.get_at(&pos.left()) == ' ' {
             output = output + 1;
         }
-        if (self.get_at(&pos.up_left()) == ' ') {
+        if self.get_at(&pos.up_left()) == ' ' {
             output = output + 1;
         }
-        if (self.get_at(&pos.down_left()) == ' ') {
+        if self.get_at(&pos.down_left()) == ' ' {
             output = output + 1;
         }
-        if (self.get_at(&pos.up_right()) == ' ') {
+        if self.get_at(&pos.up_right()) == ' ' {
             output = output + 1;
         }
-        if (self.get_at(&&pos.down_right()) == ' ') {
+        if self.get_at(&&pos.down_right()) == ' ' {
             output = output + 1;
         }
 
@@ -103,8 +103,8 @@ impl Maze {
     }
 
     fn get_at(&self, pos: &Point) -> char {
-        if (self.in_maze(pos) == false) {
-            return ('#');
+        if self.in_maze(pos) == false {
+            return '#';
         }
         return self.data[(pos.x * self.width + pos.y) as usize];
     }
@@ -127,7 +127,7 @@ impl Maze {
         /* Empty dest: */
         let mut possibilities_randomized: Vec<Point> = Vec::new();
         /* While something in possibilities, we move an element randomly to possibilities_randomized. */
-        while (possibilities.len() > 0) {
+        while possibilities.len() > 0 {
             let index = rng.gen_range(0..possibilities.len());
             possibilities_randomized.push(possibilities[index]);
             possibilities.remove(index);
@@ -167,7 +167,7 @@ impl Maze {
                 print!("+");
             }
 
-            if ((i + 1) as i32 % self.width == 0) {
+            if (i + 1) as i32 % self.width == 0 {
                 println!("");
             }
         }
