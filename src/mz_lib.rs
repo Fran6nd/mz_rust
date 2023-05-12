@@ -180,7 +180,8 @@ impl Maze {
         return s;
     }
     pub fn print(&mut self) -> () {
-        for i in 0..self.data.len() {
+        print!("{}", self.to_string());
+        /*for i in 0..self.data.len() {
             if self.data[i] == '#' {
                 print!("{}", self.data[i]);
             } else {
@@ -190,7 +191,7 @@ impl Maze {
             if (i + 1) as i32 % self.width == 0 {
                 println!("");
             }
-        }
+        }*/
     }
     pub fn to_string(&self) -> String {
         let mut output =String::from("");
