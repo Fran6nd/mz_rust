@@ -55,6 +55,22 @@ impl Point {
             y: self.y + 1,
         }
     }
+    pub fn get_neighbourg_4(&self) -> Vec<Point> {
+        let mut output: Vec<Point> = Vec::new();
+        output.push(self.up());
+        output.push(self.down());
+        output.push(self.right());
+        output.push(self.left());
+        return output;
+    }
+    pub fn get_neighbourg_9(&self) -> Vec<Point> {
+        let mut output: Vec<Point> = self.get_neighbourg_4();
+        output.push(self.up_left());
+        output.push(self.up_right());
+        output.push(self.down_right());
+        output.push(self.down_left());
+        return output;
+    }
 }
 pub struct Maze {
     height: i32,
@@ -139,6 +155,9 @@ impl Maze {
                     if self.how_many_path_neighbourgh(&tt) < 3 {
                         self.path(&tt);
                     }
+                    //else if self.how_many_path_neighbourgh(&tt) < 4 {
+
+                    //}
                 }
             }
         }
@@ -152,24 +171,36 @@ impl Maze {
                 data.push('#');
             }
         }
-        Self {
+        let mut s = Self {
             height: y,
             width: x,
             data: data,
-        }
+        };
+        s.path(&Point { x: 4, y: 4 });
+        return s;
     }
     pub fn print(&mut self) -> () {
-        self.path(&Point { x: 4, y: 4 });
         for i in 0..self.data.len() {
             if self.data[i] == '#' {
                 print!("{}", self.data[i]);
             } else {
-                print!("+");
+                print!(" ");
             }
 
             if (i + 1) as i32 % self.width == 0 {
                 println!("");
             }
         }
+    }
+    pub fn to_string(&self) -> &str {
+        let mut output =String::from("");
+        for i in 0..self.data.len() {
+            output.push(self.data[i]);
+
+            if (i + 1) as i32 % self.width == 0 {
+                output.push('\n');
+            }
+        }
+        return output;
     }
 }

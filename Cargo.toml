@@ -11,8 +11,8 @@ name = "mz_lib"
 path = "src/mz_lib.rs"
 
 [[bin]]
-name = "mz_curses"
-path = "src/mz_curses.rs"
+name = "mz_gen"
+path = "src/mz_gen.rs"
 
 [dependencies]
 rand = "0.8.5"
