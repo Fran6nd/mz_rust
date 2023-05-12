@@ -192,7 +192,7 @@ impl Maze {
             }
         }
     }
-    pub fn to_string(&self) -> &str {
+    pub fn to_string(&self) -> String {
         let mut output =String::from("");
         for i in 0..self.data.len() {
             output.push(self.data[i]);
