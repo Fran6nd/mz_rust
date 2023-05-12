@@ -122,10 +122,10 @@ impl Maze {
         if self.in_maze(pos) == false {
             return '#';
         }
-        return self.data[(pos.x * self.width + pos.y) as usize];
+        return self.data[(pos.y * self.width + pos.x) as usize];
     }
     fn set_at(&mut self, pos: &Point, value: char) -> () {
-        self.data[(pos.x * self.width + pos.y) as usize] = value;
+        self.data[(pos.y * self.width + pos.x) as usize] = value;
     }
     fn path(&mut self, pos: &Point) -> bool {
         self.set_at(pos, ' ');
